@@ -1,0 +1,1117 @@
+<title>PJ Training Guide</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="theme-color" content="#0f0f11">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="PJ Guide">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+/* ── Tokens (dark-first) ──────────────────────────────── */
+:root {
+  --bg: #0f0f11;
+  --surf: #1a1a1e;
+  --surf2: #242428;
+  --fg: #e6e2da;
+  --muted: #787268;
+  --accent: #f0a030;
+  --accent-s: rgba(240,160,48,.14);
+  --accent-dim: rgba(240,160,48,.6);
+  --good: #42a86e;
+  --good-s: rgba(66,168,110,.12);
+  --bad: #e05555;
+  --bad-s: rgba(224,85,85,.12);
+  --warn: #d4b840;
+  --border: rgba(255,255,255,.06);
+  --r: 10px;
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --bg: #f2efe9;
+    --surf: #ffffff;
+    --surf2: #eae7e0;
+    --fg: #1c1916;
+    --muted: #6a6560;
+    --accent: #c07820;
+    --accent-s: rgba(192,120,32,.10);
+    --accent-dim: rgba(192,120,32,.5);
+    --good: #2d8a58;
+    --good-s: rgba(45,138,88,.1);
+    --bad: #c03030;
+    --bad-s: rgba(192,48,48,.1);
+    --warn: #9a8010;
+    --border: rgba(0,0,0,.08);
+    color-scheme: light;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0f0f11; --surf: #1a1a1e; --surf2: #242428;
+  --fg: #e6e2da; --muted: #787268; --accent: #f0a030;
+  --accent-s: rgba(240,160,48,.14); --accent-dim: rgba(240,160,48,.6);
+  --good: #42a86e; --good-s: rgba(66,168,110,.12);
+  --bad: #e05555; --bad-s: rgba(224,85,85,.12);
+  --warn: #d4b840; --border: rgba(255,255,255,.06);
+  color-scheme: dark;
+}
+:root[data-theme="light"] {
+  --bg: #f2efe9; --surf: #ffffff; --surf2: #eae7e0;
+  --fg: #1c1916; --muted: #6a6560; --accent: #c07820;
+  --accent-s: rgba(192,120,32,.10); --accent-dim: rgba(192,120,32,.5);
+  --good: #2d8a58; --good-s: rgba(45,138,88,.1);
+  --bad: #c03030; --bad-s: rgba(192,48,48,.1);
+  --warn: #9a8010; --border: rgba(0,0,0,.08);
+  color-scheme: light;
+}
+
+/* ── Base ─────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Outfit', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+  font-size: 15px;
+  line-height: 1.6;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 0;
+  min-height: 100%;
+  overflow-x: hidden;
+}
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0 0 auto;
+  height: env(safe-area-inset-top, 0px);
+  background: var(--bg);
+  z-index: 99;
+}
+
+/* ── App header ───────────────────────────────────────── */
+.app-header {
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  z-index: 30;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 11px 0 10px;
+}
+.app-header-left { display: flex; align-items: baseline; gap: 8px; }
+.app-header h1 {
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: -.4px;
+  color: var(--fg);
+}
+.app-header h1 em { color: var(--accent); font-style: normal; }
+.app-header p { font-size: 11px; color: var(--muted); white-space: nowrap; }
+.theme-btn {
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--surf);
+  color: var(--muted);
+  font-size: 14px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  flex: none;
+}
+
+/* ── Tab nav ──────────────────────────────────────────── */
+.tabs {
+  position: sticky;
+  top: calc(env(safe-area-inset-top, 0px) + 45px);
+  z-index: 29;
+  background: var(--bg);
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding: 10px 0;
+  scrollbar-width: none;
+  border-bottom: 1px solid var(--border);
+}
+.tabs::-webkit-scrollbar { display: none; }
+.tab-btn {
+  flex: none;
+  padding: 5px 13px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background: none;
+  color: var(--muted);
+  font: 600 13px 'Outfit', sans-serif;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background .12s, color .12s, border-color .12s;
+}
+.tab-btn.active {
+  background: var(--accent);
+  border-color: transparent;
+  color: #0f0f11;
+}
+
+/* ── Sections ─────────────────────────────────────────── */
+.section { display: none; padding-top: 16px; padding-bottom: 40px; }
+.section.active { display: block; }
+
+/* ── Section header ───────────────────────────────────── */
+.sec-head {
+  margin-bottom: 14px;
+}
+.sec-head h2 {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -.5px;
+  color: var(--fg);
+  text-wrap: balance;
+}
+.sec-head p { font-size: 13.5px; color: var(--muted); margin-top: 3px; line-height: 1.55; }
+
+/* ── Cards ────────────────────────────────────────────── */
+.card {
+  background: var(--surf);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 15px;
+  margin-bottom: 10px;
+}
+.card-label {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: .7px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+.card h3 {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  letter-spacing: -.2px;
+}
+
+/* ── Bullet list ─────────────────────────────────────── */
+.bl { list-style: none; }
+.bl li {
+  padding: 4px 0 4px 20px;
+  position: relative;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--fg);
+}
+.bl li::before {
+  content: '▸';
+  position: absolute; left: 0; top: 5px;
+  color: var(--accent); font-size: 11px;
+}
+
+/* ── Numbered list ───────────────────────────────────── */
+.nl { list-style: none; counter-reset: nl; }
+.nl li {
+  counter-increment: nl;
+  padding: 5px 0 5px 28px;
+  position: relative;
+  font-size: 14px;
+  line-height: 1.55;
+}
+.nl li::before {
+  content: counter(nl);
+  position: absolute; left: 0; top: 5px;
+  width: 20px; height: 20px;
+  background: var(--accent-s);
+  color: var(--accent);
+  border-radius: 50%;
+  font-size: 11px;
+  font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* ── Highlight ───────────────────────────────────────── */
+.hl {
+  background: var(--accent-s);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 8px 8px 0;
+  padding: 11px 14px;
+  margin: 10px 0;
+  font-size: 14px;
+  line-height: 1.55;
+}
+.hl strong { color: var(--accent); }
+
+/* ── Table ────────────────────────────────────────────── */
+.t-wrap { overflow-x: auto; margin-top: 6px; border-radius: 8px; border: 1px solid var(--border); }
+table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 340px; }
+th {
+  padding: 7px 10px;
+  background: var(--surf2);
+  text-align: left;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: .5px;
+  text-transform: uppercase;
+  color: var(--muted);
+  white-space: nowrap;
+}
+td {
+  padding: 8px 10px;
+  border-top: 1px solid var(--border);
+  vertical-align: top;
+  line-height: 1.5;
+}
+tr:hover td { background: var(--surf2); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+
+/* ── Examples (good/bad) ─────────────────────────────── */
+.ex { border-radius: 8px; padding: 10px 13px; margin: 6px 0; font-size: 13.5px; line-height: 1.55; }
+.ex-label { display: block; font-size: 10px; font-weight: 700; letter-spacing: .6px; text-transform: uppercase; margin-bottom: 4px; }
+.ex-bad { background: var(--bad-s); border-left: 3px solid var(--bad); }
+.ex-bad .ex-label { color: var(--bad); }
+.ex-good { background: var(--good-s); border-left: 3px solid var(--good); }
+.ex-good .ex-label { color: var(--good); }
+
+/* ── Checklist ───────────────────────────────────────── */
+.checklist { list-style: none; }
+.checklist li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1.5;
+  transition: color .1s;
+}
+.checklist li:last-child { border-bottom: none; }
+.checklist input[type="checkbox"] {
+  width: 18px; height: 18px;
+  flex: none; margin-top: 1px;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+.checklist li.done span { color: var(--muted); text-decoration: line-through; }
+.chk-score {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 14px;
+  padding: 12px;
+  background: var(--surf2);
+  border-radius: 8px;
+}
+.score-bar-wrap { flex: 1; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+.score-bar { height: 100%; border-radius: 3px; background: var(--accent); transition: width .3s; }
+.score-text { font-size: 13px; font-weight: 700; color: var(--accent); flex: none; }
+.btn-reset {
+  display: block;
+  width: 100%;
+  margin-top: 10px;
+  padding: 8px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: none;
+  color: var(--muted);
+  font: 13px 'Outfit', sans-serif;
+  cursor: pointer;
+  transition: border-color .12s, color .12s;
+}
+.btn-reset:hover { border-color: var(--accent); color: var(--accent); }
+
+/* ── Flow steps ──────────────────────────────────────── */
+.flow { display: flex; flex-direction: column; gap: 2px; }
+.flow-step {
+  display: flex;
+  gap: 12px;
+  padding: 10px 0;
+  position: relative;
+}
+.flow-step:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  left: 13px; top: 38px;
+  width: 2px;
+  height: calc(100% - 18px);
+  background: var(--border);
+}
+.flow-num {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: var(--accent-s);
+  border: 2px solid var(--accent);
+  color: var(--accent);
+  font-size: 12px; font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+  flex: none; position: relative; z-index: 1;
+}
+.flow-body { flex: 1; min-width: 0; padding-top: 2px; }
+.flow-title { font-size: 14px; font-weight: 700; }
+.flow-time { font-size: 11.5px; color: var(--accent); font-weight: 600; margin: 1px 0 2px; }
+.flow-note { font-size: 13px; color: var(--muted); }
+
+/* ── Q & A pairs ─────────────────────────────────────── */
+.qa { padding: 9px 0; border-bottom: 1px solid var(--border); }
+.qa:last-child { border-bottom: none; }
+.q { font-size: 13px; color: var(--muted); margin-bottom: 2px; }
+.a { font-size: 14px; font-weight: 500; }
+
+/* ── Diagram caption ─────────────────────────────────── */
+.diag-cap { text-align: center; font-size: 12px; color: var(--muted); margin-top: 6px; }
+
+/* ── Divider ─────────────────────────────────────────── */
+.div { border: none; border-top: 1px solid var(--border); margin: 14px 0; }
+</style>
+
+<!-- Safe-area top band color -->
+<style>
+  body::before { background: var(--bg); }
+</style>
+
+<!-- App shell -->
+<header class="app-header">
+  <div class="app-header-left">
+    <h1>📸 <em>PJ</em> Training Guide</h1>
+    <p>RSPC 2026 · Photojournalism</p>
+  </div>
+  <button class="theme-btn" onclick="toggleTheme()" title="Toggle theme">☀</button>
+</header>
+
+<nav class="tabs" id="tabNav">
+  <button class="tab-btn active" onclick="showTab('kamera',this)">📷 Kamera</button>
+  <button class="tab-btn" onclick="showTab('kompo',this)">🎯 Komposisyon</button>
+  <button class="tab-btn" onclick="showTab('balita',this)">📰 Balita</button>
+  <button class="tab-btn" onclick="showTab('kwento',this)">📖 Kwento</button>
+  <button class="tab-btn" onclick="showTab('etika',this)">⚖️ Etika</button>
+  <button class="tab-btn" onclick="showTab('caption',this)">✍️ Caption</button>
+  <button class="tab-btn" onclick="showTab('mock',this)">🎬 Mock Shoot</button>
+</nav>
+
+<main>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- SECTION 1: KAMERA                                  -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="section active" id="sec-kamera">
+  <div class="sec-head">
+    <h2>Kamera at Exposure</h2>
+    <p>Alamin ang tatlong elementong nagkokontrol sa liwanag ng litrato.</p>
+  </div>
+
+  <!-- Exposure Triangle SVG -->
+  <div class="card">
+    <div class="card-label">Exposure Triangle</div>
+    <svg viewBox="0 0 320 220" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:380px;display:block;margin:0 auto">
+      <!-- Triangle -->
+      <polygon points="160,18 18,192 302,192" stroke="var(--accent)" stroke-width="2.5" fill="var(--accent-s)" stroke-linejoin="round"/>
+      <!-- Center label -->
+      <text x="160" y="130" text-anchor="middle" font-family="Outfit,sans-serif" font-size="11" font-weight="700" fill="var(--accent)" letter-spacing="1">EXPOSURE</text>
+      <text x="160" y="144" text-anchor="middle" font-family="Outfit,sans-serif" font-size="9" fill="var(--muted)" letter-spacing="1">TAMANG LIWANAG</text>
+      <!-- ISO label (top) -->
+      <text x="160" y="12" text-anchor="middle" font-family="Outfit,sans-serif" font-size="13" font-weight="800" fill="var(--fg)">ISO</text>
+      <text x="160" y="24" text-anchor="middle" font-family="Outfit,sans-serif" font-size="9" fill="var(--muted)">Sensitivity</text>
+      <!-- ISO up/down -->
+      <text x="100" y="64" text-anchor="middle" font-family="Outfit,sans-serif" font-size="9" fill="var(--muted)">↑ ISO = mas maliwanag</text>
+      <text x="100" y="75" text-anchor="middle" font-family="Outfit,sans-serif" font-size="9" fill="var(--muted)">+ ingay/grain</text>
+      <text x="222" y="64" text-anchor="middle" font-family="Outfit,sans-serif" font-size="9" fill="var(--muted)">↓ ISO = mas madilim</text>
+      <text x="222" y="75" text-anchor="middle" font-family="Outfit,sans-serif" font-size="9" fill="var(--muted)">+ malinis</text>
+      <!-- Shutter Speed (left) -->
+      <text x="24" y="210" text-anchor="middle" font-family="Outfit,sans-serif" font-size="13" font-weight="800" fill="var(--fg)">Shutter</text>
+      <text x="24" y="220" text-anchor="middle" font-family="Outfit,sans-serif" font-size="9" fill="var(--muted)">Speed</text>
+      <!-- Aperture (right) -->
+      <text x="296" y="210" text-anchor="middle" font-family="Outfit,sans-serif" font-size="13" font-weight="800" fill="var(--fg)">Aperture</text>
+      <text x="296" y="220" text-anchor="middle" font-family="Outfit,sans-serif" font-size="9" fill="var(--muted)">f-stop</text>
+      <!-- Bottom line labels -->
+      <text x="100" y="202" text-anchor="middle" font-family="Outfit,sans-serif" font-size="9" fill="var(--muted)">mabilis = freeze motion</text>
+      <text x="230" y="202" text-anchor="middle" font-family="Outfit,sans-serif" font-size="9" fill="var(--muted)">maliit f = bokeh/blurred bg</text>
+    </svg>
+    <p class="diag-cap">Ang tatlo ay magkakaugnay — baguhin ang isa, apektado ang dalawa.</p>
+  </div>
+
+  <!-- Explanation cards -->
+  <div class="card">
+    <div class="card-label">ISO — Sensitivity ng Sensor</div>
+    <ul class="bl">
+      <li><strong>100–200:</strong> Labas, maliwanag. Pinaka-malinis na larawan.</li>
+      <li><strong>400–800:</strong> Loob ng gusali may bintana. Katanggap-tanggap.</li>
+      <li><strong>1600–3200:</strong> Madilim. Gagamitin mo lang kung wala nang ibang paraan.</li>
+      <li><strong>6400+:</strong> Emergency lang. Maraming grain/ingay.</li>
+    </ul>
+    <div class="hl">💡 <strong>Panuntunan:</strong> Palaging magsimula sa pinakamababang ISO. Taasan lang kung talagang kailangan.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Shutter Speed — Bilis ng Shutter</div>
+    <ul class="bl">
+      <li><strong>1/1000 pataas:</strong> I-freeze ang mabilis na aksyon — sports, agawan.</li>
+      <li><strong>1/500:</strong> Karaniwang aksyon — takbo, braso na gumagalaw.</li>
+      <li><strong>1/250:</strong> Naka-upo na tao, mailaw na sitwasyon.</li>
+      <li><strong>1/60 pababa:</strong> Kailangang may tripod na — mablur kapag hawak mo.</li>
+    </ul>
+    <div class="hl">💡 <strong>Thumb rule:</strong> Huwag bumaba ng 1/(focal length). Gamit 50mm lens? Huwag bumaba ng 1/50.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Aperture — Laki ng Butas ng Lens</div>
+    <ul class="bl">
+      <li><strong>f/1.8–f/2.8:</strong> Malaking butas = bokeh background. Perpekto sa portrait.</li>
+      <li><strong>f/4–f/5.6:</strong> Balanced. Karamihan ng photojournalism dito.</li>
+      <li><strong>f/8–f/11:</strong> Maliit na butas = lahat malinis. Maganda sa landscape/grupo.</li>
+    </ul>
+    <div class="hl">💡 <strong>Sa contests:</strong> f/4–f/8 ang pinakaligtas. Siguruhing malinaw ang subject!</div>
+  </div>
+
+  <!-- Cheat Sheet Table -->
+  <div class="card">
+    <div class="card-label">Cheat Sheet — Settings sa Bawat Sitwasyon</div>
+    <div class="t-wrap">
+      <table>
+        <tr><th>Sitwasyon</th><th>ISO</th><th>Shutter</th><th>Aperture</th></tr>
+        <tr><td>🌞 Labas, maliwanag</td><td>100–200</td><td>1/500–1000</td><td>f/5.6–8</td></tr>
+        <tr><td>🏠 Loob, may ilaw</td><td>400–800</td><td>1/250–500</td><td>f/4–5.6</td></tr>
+        <tr><td>🌙 Loob, madilim</td><td>1600–3200</td><td>1/250+</td><td>f/2.8–4</td></tr>
+        <tr><td>🏃 Aksyon/Palakasan</td><td>200–800</td><td>1/500–1000+</td><td>f/4–8</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- Shooting Modes -->
+  <div class="card">
+    <div class="card-label">Shooting Modes</div>
+    <div class="t-wrap">
+      <table>
+        <tr><th>Mode</th><th>Ano ang Kontrolin Mo</th><th>Gamitin Kung…</th></tr>
+        <tr><td><strong>M (Manual)</strong></td><td>Lahat: ISO, Shutter, Aperture</td><td>May oras mag-adjust; controlled lighting</td></tr>
+        <tr><td><strong>Av / A</strong></td><td>Aperture mo, kamera ang shutter</td><td>Portrait, documentary — background control</td></tr>
+        <tr><td><strong>Tv / S</strong></td><td>Shutter mo, kamera ang aperture</td><td>Sports, aksyon — motion control</td></tr>
+        <tr><td><strong>P (Program)</strong></td><td>ISO lang (semi-auto)</td><td>Mabilis na sitwasyon, hindi mapaglabanan</td></tr>
+      </table>
+    </div>
+    <div class="hl" style="margin-top:10px">🏆 <strong>Sa contest:</strong> Mag-aralan ang Aperture Priority (Av/A) — pinaka-versatile para sa photojournalism.</div>
+  </div>
+
+  <!-- Other settings -->
+  <div class="card">
+    <div class="card-label">Iba Pang Mahahalagang Setting</div>
+    <div class="t-wrap">
+      <table>
+        <tr><th>Setting</th><th>Gamitin</th></tr>
+        <tr><td><strong>AF-C / Continuous</strong></td><td>Gumagalaw ang subject — sports, event</td></tr>
+        <tr><td><strong>AF-S / Single</strong></td><td>Nakatayo ang subject — portrait, product</td></tr>
+        <tr><td><strong>RAW format</strong></td><td>Lahat ng training at contest — mas malaking laruan sa editing</td></tr>
+        <tr><td><strong>Burst Mode</strong></td><td>Aksyon at mabilis na kaganapan — huwag abusuhin</td></tr>
+        <tr><td><strong>White Balance</strong></td><td>AWB (Auto) ay okay; i-adjust kung yellowish/bluish</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- SECTION 2: KOMPOSISYON                             -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="section" id="sec-kompo">
+  <div class="sec-head">
+    <h2>Komposisyon</h2>
+    <p>Ang mabuting komposisyon ang nagpapalitaw ng story sa iisang frame.</p>
+  </div>
+
+  <!-- Rule of Thirds SVG -->
+  <div class="card">
+    <div class="card-label">Rule of Thirds</div>
+    <svg viewBox="0 0 280 190" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:360px;display:block;margin:0 auto">
+      <!-- Grid background -->
+      <rect x="10" y="10" width="260" height="170" rx="6" fill="var(--surf2)" stroke="var(--border)" stroke-width="1"/>
+      <!-- Grid lines -->
+      <line x1="96.7" y1="10" x2="96.7" y2="180" stroke="var(--accent)" stroke-width="1" stroke-dasharray="4,3" opacity=".7"/>
+      <line x1="183.3" y1="10" x2="183.3" y2="180" stroke="var(--accent)" stroke-width="1" stroke-dasharray="4,3" opacity=".7"/>
+      <line x1="10" y1="66.7" x2="270" y2="66.7" stroke="var(--accent)" stroke-width="1" stroke-dasharray="4,3" opacity=".7"/>
+      <line x1="10" y1="123.3" x2="270" y2="123.3" stroke="var(--accent)" stroke-width="1" stroke-dasharray="4,3" opacity=".7"/>
+      <!-- Power points -->
+      <circle cx="96.7" cy="66.7" r="6" fill="var(--accent)" opacity=".9"/>
+      <circle cx="183.3" cy="66.7" r="6" fill="var(--accent)" opacity=".9"/>
+      <circle cx="96.7" cy="123.3" r="6" fill="var(--accent)" opacity=".9"/>
+      <circle cx="183.3" cy="123.3" r="6" fill="var(--accent)" opacity=".9"/>
+      <!-- "Sweet spots" label -->
+      <text x="140" y="155" text-anchor="middle" font-family="Outfit,sans-serif" font-size="10" fill="var(--muted)">← Ilagay ang subject sa alinman sa 4 na tuldok →</text>
+      <!-- Labels -->
+      <text x="53" y="50" text-anchor="middle" font-family="Outfit,sans-serif" font-size="9" fill="var(--muted)">1/3</text>
+      <text x="140" y="50" text-anchor="middle" font-family="Outfit,sans-serif" font-size="9" fill="var(--muted)">1/3</text>
+      <text x="227" y="50" text-anchor="middle" font-family="Outfit,sans-serif" font-size="9" fill="var(--muted)">1/3</text>
+    </svg>
+    <div class="hl" style="margin-top:10px">📐 Huwag ilagay ang subject sa gitna lagi. I-enable ang grid ng kamera para makita ang mga linya!</div>
+  </div>
+
+  <!-- 6 Principles -->
+  <div class="card">
+    <div class="card-label">6 Prinsipyo ng Komposisyon</div>
+    <ol class="nl" style="margin-top:4px">
+      <li><strong>Rule of Thirds</strong> — Ilagay ang subject sa interseksyon, hindi gitna.</li>
+      <li><strong>Leading Lines</strong> — Gumamit ng linya (daan, bakod, ilog) para alugin ang mata ng mambabasa papunta sa subject.</li>
+      <li><strong>Framing</strong> — Gumamit ng natural na frame (arko, bintana, sanga) para palakasin ang pokus.</li>
+      <li><strong>Negative Space</strong> — Bigyan ng "hininga" ang subject. Hindi lahat ng espasyo kailangang puno.</li>
+      <li><strong>Depth (3 Layer)</strong> — May foreground, middle ground, at background para mas may lalim ang larawan.</li>
+      <li><strong>Simplicity</strong> — Huwag masyadong marami sa isang frame. Isa lang ang hero.</li>
+    </ol>
+  </div>
+
+  <!-- 3-Shot Rule -->
+  <div class="card">
+    <div class="card-label">3-Shot Rule — Para sa Bawat Story</div>
+    <div class="t-wrap">
+      <table>
+        <tr><th>Shot</th><th>Ano</th><th>Layunin</th></tr>
+        <tr><td>🌍 <strong>Wide Shot</strong></td><td>Buong lugar / establishing</td><td>Ipaliwanag ang lugar at konteksto</td></tr>
+        <tr><td>🧍 <strong>Medium Shot</strong></td><td>Kalahating katawan</td><td>Ipakita ang aksyon at relasyon</td></tr>
+        <tr><td>👁️ <strong>Close-up</strong></td><td>Mukha, kamay, detalye</td><td>Emosyon at impak</td></tr>
+      </table>
+    </div>
+    <div class="hl" style="margin-top:10px">📸 Sa isang event, kunin ang lahat ng tatlo. Mas maraming pagpipilian = mas malakas ang story.</div>
+  </div>
+
+  <!-- Angle Tips -->
+  <div class="card">
+    <div class="card-label">Mga Angulo at Epekto</div>
+    <ul class="bl">
+      <li><strong>Eye-level:</strong> Neutral — nagpapakita ng pantay na relasyon sa subject.</li>
+      <li><strong>Low angle (mula sa lupa):</strong> Nakapagbibigay ng kapangyarihan at kadakilaan sa subject.</li>
+      <li><strong>High angle (mula sa itaas):</strong> Nagpapakita ng vulnerability o konteksto ng lugar.</li>
+      <li><strong>Bird's eye:</strong> Palaging kawili-wiling perspektibo — maghanap ng hagdan o mataas na lugar!</li>
+    </ul>
+  </div>
+
+  <!-- Common mistakes -->
+  <div class="card">
+    <div class="card-label">Mga Karaniwang Mali sa Komposisyon</div>
+    <ul class="bl">
+      <li>Subject nasa gitna palagi — basagin ang gawi na ito.</li>
+      <li>Putol ang ulo o paa ng tao sa frame.</li>
+      <li>Pole o puno na "lumalabas" sa ulo ng subject.</li>
+      <li>Masyadong maraming elemento — malito ang mata.</li>
+      <li>Horizon na hindi tuwid — laging tingnan ang level.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- SECTION 3: BALITA (NEWS SENSE)                     -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="section" id="sec-balita">
+  <div class="sec-head">
+    <h2>News Sense · Balita</h2>
+    <p>Ang isang magandang litrato ay walang kabuluhan kung walang balitang nasasalamin dito.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Ano ang Newsworthy na Litrato?</div>
+    <div class="hl">
+      Ang isang larawan ay may balita kung may <strong>impak</strong> sa komunidad at may <strong>emosyon</strong> na naabot ang manonood sa loob ng <strong>isang segundo</strong>.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">6 Katangian ng Balita (News Values)</div>
+    <div class="t-wrap">
+      <table>
+        <tr><th>#</th><th>Katangian</th><th>Ibig Sabihin</th><th>Halimbawa</th></tr>
+        <tr><td>1</td><td><strong>Timeliness</strong></td><td>Nangyayari ngayon</td><td>Pagbubukas ng bagong gusali ng paaralan</td></tr>
+        <tr><td>2</td><td><strong>Proximity</strong></td><td>Malapit sa atin</td><td>Kaganapan sa sariling bayan/paaralan</td></tr>
+        <tr><td>3</td><td><strong>Significance</strong></td><td>Nakakaapekto sa marami</td><td>Pagbabago ng patakaran sa school</td></tr>
+        <tr><td>4</td><td><strong>Prominence</strong></td><td>Kilalang tao o lugar</td><td>Pagbisita ng gobernador sa paaralan</td></tr>
+        <tr><td>5</td><td><strong>Human Interest</strong></td><td>Nakakaantig sa puso</td><td>Batang nanay na nagtatapos</td></tr>
+        <tr><td>6</td><td><strong>Conflict</strong></td><td>May tensyon o labanan</td><td>Paligsahan, demonstrasyon</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">The Decisive Moment (Henri Cartier-Bresson)</div>
+    <div class="hl">
+      <strong>"The decisive moment"</strong> — ang sandaling iyon na pinagsabay ang komposisyon, emosyon, at aksyon. Hindi maisasaayos ulit. Isang beses lang.
+    </div>
+    <ul class="bl" style="margin-top:8px">
+      <li>Antayin ang tamang sandali bago pindutin ang shutter.</li>
+      <li>Mag-pre-compose — i-frame mo muna, pagkatapos hintayin ang subject na pumasok.</li>
+      <li>Alamin ang susunod na mangyayari at maging handa.</li>
+      <li>Gumamit ng burst mode sa kritikal na sandali.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Mga Tanong Bago Mag-click</div>
+    <ol class="nl">
+      <li>Maliwanag ba ang nangyayari dito?</li>
+      <li>May emosyon ba ang makikita sa litrato?</li>
+      <li>Magugustuhan ba ito ng mga taga-komunidad?</li>
+      <li>Hindi ko ito makukuha ulit — kailangan ko na bang kumuha?</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Mga Karaniwang Pagkakamali</div>
+    <ul class="bl">
+      <li>Kumuha ng "mag-pose" — natural lang, huwag papagpositin.</li>
+      <li>Masyado sa malayo — lumapit! Ang makapangyarihang litrato ay palapit.</li>
+      <li>Walang emosyon — hanapin ang mukha, mata, at gesture.</li>
+      <li>Kumuha lang ng isa — maraming kuhanin, pipiliin mo mamaya ang pinakamainam.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- SECTION 4: KWENTO (STORYTELLING)                   -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="section" id="sec-kwento">
+  <div class="sec-head">
+    <h2>Visual Storytelling</h2>
+    <p>Ang isang larawan ay dapat magsabi ng kwento nang walang salita.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-label">4 Tanong Bago Mag-click</div>
+    <ol class="nl">
+      <li><strong>Sino?</strong> — Sino ang pangunahing tauhan? Malinaw ba siya sa frame?</li>
+      <li><strong>Ano ang nangyayari?</strong> — Makikita ba ang aksyon/pangyayari?</li>
+      <li><strong>Bakit mahalaga?</strong> — May dahilan ba ang taong makita ito?</li>
+      <li><strong>Ano ang nararamdaman?</strong> — Anong emosyon ang naihahatid ng litrato?</li>
+    </ol>
+    <div class="hl" style="margin-top:10px">Kung hindi mo masagot ang apat — hanapin muna ang tamang sandali bago kumuha.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">News Photo vs Feature Photo</div>
+    <div class="t-wrap">
+      <table>
+        <tr><th></th><th>News Photo</th><th>Feature Photo</th></tr>
+        <tr><td><strong>Paksa</strong></td><td>Kaganapan ngayon</td><td>Human interest, katotohanan sa buhay</td></tr>
+        <tr><td><strong>Tono</strong></td><td>Seryoso, urgent</td><td>Malambot, may lalim</td></tr>
+        <tr><td><strong>Timing</strong></td><td>Breaking, agaran</td><td>Maaaring planado/hintayin</td></tr>
+        <tr><td><strong>Shot</strong></td><td>Malinis, malinaw</td><td>Mas malikhaing komposisyon</td></tr>
+        <tr><td><strong>Caption</strong></td><td>Impormasyon-heavy</td><td>Mas makulay, may kwento</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Photo Package — Para sa Maayos na Story</div>
+    <ul class="bl">
+      <li><strong>Establishing Shot (Wide):</strong> Ipinakikilala ang lugar at sitwasyon.</li>
+      <li><strong>Action/Key Shot (Medium):</strong> Ang pangunahing pangyayari — ito ang lead photo.</li>
+      <li><strong>Detail Shot (Close-up):</strong> Kamay, mukha, bagay na nagpapataas ng kwento.</li>
+      <li><strong>Reaction Shot:</strong> Ang emosyon ng tao sa harap ng pangyayari.</li>
+      <li><strong>Portrait:</strong> Pag-aaral ng taong naapektuhan o bahagi ng kwento.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Mga Angulo Para sa Mas Makapangyarihang Kwento</div>
+    <div class="t-wrap">
+      <table>
+        <tr><th>Angulo</th><th>Naigagawa</th></tr>
+        <tr><td>Mula sa ibaba (low)</td><td>Nagbibigay kapangyarihan — panlaban, kalayaan</td></tr>
+        <tr><td>Mula sa itaas (high)</td><td>Vulnerability, kalunos-lunos, sitwasyon ng lugar</td></tr>
+        <tr><td>Eye-level</td><td>Pantay, direkta, totoo — pinaka-natural</td></tr>
+        <tr><td>Dutch angle (piling)</td><td>Tensyon, hindi komportable — gamitin nang puno ng dahilan</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- SECTION 5: ETIKA                                   -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="section" id="sec-etika">
+  <div class="sec-head">
+    <h2>Etika ng Photojournalism</h2>
+    <p>Ang kredibilidad ng larawan ay ang pundasyon ng photojournalism.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-label">3 Pangunahing Prinsipyo</div>
+    <ol class="nl">
+      <li><strong>Katotohanan (Truth):</strong> Ang litrato ay dapat sumasalamin sa tunay na nangyari. Walang stage, walang dikto sa subject.</li>
+      <li><strong>Dignidad (Dignity):</strong> Igalang ang mga taong kinukuha — lalo na ang vulnerable, bata, at biktima.</li>
+      <li><strong>Katarungan (Fairness):</strong> Hindi pabago-bago ng konteksto para manlinlang. Ipakita ang buong katotohanan.</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Tama ✅ vs. Mali ❌</div>
+    <div class="t-wrap">
+      <table>
+        <tr><th>Tama ✅</th><th>Mali ❌</th></tr>
+        <tr><td>Kumuha habang natural na nangyayari</td><td>Pag-ayos ng scene / pagsasaayos ng subject</td></tr>
+        <tr><td>Crop at basic exposure adjustment</td><td>Magdagdag/magtanggal ng elemento sa litrato</td></tr>
+        <tr><td>Humingi ng pahintulot sa sensitive na sitwasyon</td><td>Mag-publish nang walang pahintulot ng bata o biktima</td></tr>
+        <tr><td>Hayaan ang emosyon ng subject</td><td>Utusan ang subject na "mag-cry" o "magpretend"</td></tr>
+        <tr><td>Piliin ang pinaka-representatibo na litrato</td><td>Pumili ng misleading na litrato para makapanlinlang</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Mga Karaniwang Isyu sa Etika</div>
+    <ul class="bl">
+      <li><strong>Graphic content:</strong> Mag-isip bago mag-publish ng madugo o nakakapinsalang litrato.</li>
+      <li><strong>Pagkukuha sa bata:</strong> Laging humingi ng pahintulot sa magulang/guro.</li>
+      <li><strong>Sensitive na sitwasyon:</strong> Lindol, sakuna — igalang ang emosyon ng biktima.</li>
+      <li><strong>AI at deepfake:</strong> Hindi pinapayagan ang AI-generated content sa photojournalism.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Pinahintulutang Editing sa Contest</div>
+    <ul class="bl">
+      <li>Pag-aayos ng brightness/contrast/exposure</li>
+      <li>Pag-aayos ng white balance/color temperature</li>
+      <li>Cropping — basta hindi alisin ang mahalagang elemento</li>
+      <li>Konting noise reduction at sharpening</li>
+    </ul>
+    <hr class="div">
+    <div class="card-label" style="color: var(--bad)">Hindi Pinahintulutan</div>
+    <ul class="bl">
+      <li>Magdagdag o magtanggal ng elemento gamit ang Photoshop/AI</li>
+      <li>Composite photos (pagsasama ng dalawang litrato)</li>
+      <li>Baguhin ang realidad ng litrato</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- SECTION 6: CAPTION                                  -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="section" id="sec-caption">
+  <div class="sec-head">
+    <h2>Caption Writing</h2>
+    <p>Ang caption ang nagbibigay ng konteksto na hindi makikita sa larawan.</p>
+  </div>
+
+  <!-- Caption Structure SVG -->
+  <div class="card">
+    <div class="card-label">Istraktura ng Caption</div>
+    <svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:360px;display:block;margin:0 auto">
+      <!-- Box 1: Action -->
+      <rect x="10" y="10" width="280" height="48" rx="8" fill="var(--accent-s)" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="22" y="28" font-family="Outfit,sans-serif" font-size="11" font-weight="700" fill="var(--accent)">PANGUNGUSAP 1 — Aksyon</text>
+      <text x="22" y="42" font-family="Outfit,sans-serif" font-size="10" fill="var(--fg)">Present tense · Sino ang gumagawa ng ano · Saan · Kailan</text>
+      <!-- Arrow 1 -->
+      <line x1="150" y1="58" x2="150" y2="76" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arr)"/>
+      <defs><marker id="arr" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto"><polygon points="0 0, 7 3.5, 0 7" fill="var(--muted)"/></marker></defs>
+      <!-- Box 2: Context -->
+      <rect x="10" y="78" width="280" height="48" rx="8" fill="var(--surf2)" stroke="var(--border)" stroke-width="1.5"/>
+      <text x="22" y="96" font-family="Outfit,sans-serif" font-size="11" font-weight="700" fill="var(--fg)">PANGUNGUSAP 2 — Konteksto</text>
+      <text x="22" y="110" font-family="Outfit,sans-serif" font-size="10" fill="var(--muted)">Bakit nangyayari ito · Background · Kahalagahan</text>
+      <!-- Arrow 2 -->
+      <line x1="150" y1="126" x2="150" y2="144" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arr)"/>
+      <!-- Box 3: Quote -->
+      <rect x="10" y="146" width="280" height="48" rx="8" fill="var(--surf2)" stroke="var(--border)" stroke-width="1.5"/>
+      <text x="22" y="164" font-family="Outfit,sans-serif" font-size="11" font-weight="700" fill="var(--fg)">PANGUNGUSAP 3 (Opsyonal) — Quote</text>
+      <text x="22" y="178" font-family="Outfit,sans-serif" font-size="10" fill="var(--muted)">Direktang sipi mula sa subject · Nagpapalakas ng emosyon</text>
+    </svg>
+  </div>
+
+  <!-- 5W+1H Table -->
+  <div class="card">
+    <div class="card-label">5W + 1H — Mga Tanong sa Caption</div>
+    <div class="t-wrap">
+      <table>
+        <tr><th>Tanong</th><th>Sa Caption</th><th>Hanapin sa…</th></tr>
+        <tr><td><strong>WHO (Sino)</strong></td><td>Buong pangalan, grade/position</td><td>Itanong sa subject/guro</td></tr>
+        <tr><td><strong>WHAT (Ano)</strong></td><td>Verb ng aksyon, present tense</td><td>Makikita sa litrato</td></tr>
+        <tr><td><strong>WHERE (Saan)</strong></td><td>Espesipikong lugar</td><td>Alamin sa event organizer</td></tr>
+        <tr><td><strong>WHEN (Kailan)</strong></td><td>Petsa, oras (kung sapat)</td><td>Press release, event program</td></tr>
+        <tr><td><strong>WHY (Bakit)</strong></td><td>Dahilan/layunin ng aksyon</td><td>Itanong! Hindi laging makikita</td></tr>
+        <tr><td><strong>HOW (Paano)</strong></td><td>Paraan, proseso</td><td>Obserbasyon + tanong</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- Questioning technique -->
+  <div class="card">
+    <div class="card-label">Questioning Technique — Para Makakuha ng Caption Material</div>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:12px">Bago mag-caption, makipagkita sa subject o organizer. Itanong ang mga ito:</p>
+
+    <div class="card-label" style="margin-top:0;font-size:10px">Para sa Subject (Tauhan)</div>
+    <ul class="bl">
+      <li>"Ano ang inyong pangalan at iniisip/nararamdaman ngayon?"</li>
+      <li>"Bakit ka nandito? Ano ang iyong bahagi sa [kaganapan]?"</li>
+      <li>"Ano ang mensahe mo sa mga manonood ng larawang ito?"</li>
+    </ul>
+
+    <hr class="div">
+    <div class="card-label" style="margin-top:0;font-size:10px">Para sa Organizer / Teacher-in-Charge</div>
+    <ul class="bl">
+      <li>"Ano ang layunin ng [programa/event]?"</li>
+      <li>"Kailan at saan eksaktong nangyari ito?"</li>
+      <li>"Ilang estudyante/tao ang lumahok?"</li>
+    </ul>
+
+    <hr class="div">
+    <div class="card-label" style="margin-top:0;font-size:10px">Para Mapalakas ang Context</div>
+    <ul class="bl">
+      <li>"Ito ba ay bahagi ng mas malaking programa o kilusan?"</li>
+      <li>"May resulta na ba ito? Anong nangyari pagkatapos?"</li>
+      <li>"Sino pa ang apektado o tumatanggap ng benepisyo?"</li>
+    </ul>
+  </div>
+
+  <!-- Caption Rules -->
+  <div class="card">
+    <div class="card-label">Mga Panuntunan sa Pagsulat ng Caption</div>
+    <ul class="bl">
+      <li>Present tense lagi para sa aksyon (<em>nagtatanim</em>, hindi <em>nagtanim</em>).</li>
+      <li>Buong pangalan sa unang pagbanggit; apelyido na lang sa susunod.</li>
+      <li>Hindi paulit-ulit ang makikita sa litrato — dagdagan, huwag ilarawan.</li>
+      <li>Huwag mag-simula ng caption sa pangalan — magsimula sa aksyon.</li>
+      <li>Iwasan ang "Litratong nagpapakita ng…" — ang litrato na ang nagpapakita!</li>
+    </ul>
+  </div>
+
+  <!-- Example -->
+  <div class="card">
+    <div class="card-label">Halimbawa ng Caption</div>
+    <div class="ex ex-bad">
+      <span class="ex-label">❌ Mahina</span>
+      Nagtanim si Juan. Mahalaga ang kalikasan.
+    </div>
+    <div class="ex ex-good">
+      <span class="ex-label">✅ Malakas</span>
+      Nagtatanim ng punong ipil-ipil si <strong>Juan dela Cruz</strong>, Grade 12 STEM, bilang bahagi ng programa ng Bataraza National High School para sa kalikasan sa gitna ng Buwan ng Wika noong <strong>Agosto 29, 2026</strong>, sa loob ng paaralan. "Gusto naming mapanatili ang kalikasan para sa susunod na henerasyon," wika ni Cruz.
+    </div>
+    <div class="hl" style="margin-top:10px">
+      💡 Pansinin: <strong>present tense (nagtatanim)</strong>, buong pangalan + grade, layunin ng programa, petsa, lugar, at quote para sa emosyon.
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- SECTION 7: MOCK SHOOT                              -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="section" id="sec-mock">
+  <div class="sec-head">
+    <h2>Mock Shoot Guide</h2>
+    <p>Paano mag-practise para sa totoong competition.</p>
+  </div>
+
+  <!-- Mock Shoot Flow SVG -->
+  <div class="card">
+    <div class="card-label">Mock Shoot Timeline (2 Oras)</div>
+    <svg viewBox="0 0 300 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:400px;display:block;margin:0 auto">
+      <!-- line -->
+      <line x1="30" y1="42" x2="270" y2="42" stroke="var(--border)" stroke-width="2"/>
+      <!-- Step 1 -->
+      <circle cx="30" cy="42" r="10" fill="var(--accent)" />
+      <text x="30" y="46" text-anchor="middle" font-family="Outfit,sans-serif" font-size="9" font-weight="700" fill="#0f0f11">1</text>
+      <text x="30" y="62" text-anchor="middle" font-family="Outfit,sans-serif" font-size="9" fill="var(--fg)">Brief</text>
+      <text x="30" y="73" text-anchor="middle" font-family="Outfit,sans-serif" font-size="8" fill="var(--muted)">5 min</text>
+      <!-- Step 2 -->
+      <circle cx="90" cy="42" r="10" fill="var(--accent-s)" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="90" y="46" text-anchor="middle" font-family="Outfit,sans-serif" font-size="9" font-weight="700" fill="var(--accent)">2</text>
+      <text x="90" y="62" text-anchor="middle" font-family="Outfit,sans-serif" font-size="9" fill="var(--fg)">Recce</text>
+      <text x="90" y="73" text-anchor="middle" font-family="Outfit,sans-serif" font-size="8" fill="var(--muted)">10 min</text>
+      <!-- Step 3 -->
+      <circle cx="150" cy="42" r="10" fill="var(--accent-s)" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="150" y="46" text-anchor="middle" font-family="Outfit,sans-serif" font-size="9" font-weight="700" fill="var(--accent)">3</text>
+      <text x="150" y="62" text-anchor="middle" font-family="Outfit,sans-serif" font-size="9" fill="var(--fg)">Shoot</text>
+      <text x="150" y="73" text-anchor="middle" font-family="Outfit,sans-serif" font-size="8" fill="var(--muted)">60 min</text>
+      <!-- Step 4 -->
+      <circle cx="210" cy="42" r="10" fill="var(--accent-s)" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="210" y="46" text-anchor="middle" font-family="Outfit,sans-serif" font-size="9" font-weight="700" fill="var(--accent)">4</text>
+      <text x="210" y="62" text-anchor="middle" font-family="Outfit,sans-serif" font-size="9" fill="var(--fg)">Edit</text>
+      <text x="210" y="73" text-anchor="middle" font-family="Outfit,sans-serif" font-size="8" fill="var(--muted)">20 min</text>
+      <!-- Step 5 -->
+      <circle cx="270" cy="42" r="10" fill="var(--accent-s)" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="270" y="46" text-anchor="middle" font-family="Outfit,sans-serif" font-size="9" font-weight="700" fill="var(--accent)">5</text>
+      <text x="270" y="62" text-anchor="middle" font-family="Outfit,sans-serif" font-size="9" fill="var(--fg)">Caption</text>
+      <text x="270" y="73" text-anchor="middle" font-family="Outfit,sans-serif" font-size="8" fill="var(--muted)">25 min</text>
+      <!-- Total -->
+      <text x="150" y="95" text-anchor="middle" font-family="Outfit,sans-serif" font-size="9" fill="var(--muted)">Total: ~2 oras (katulad ng totoong contest)</text>
+    </svg>
+  </div>
+
+  <!-- Step by Step -->
+  <div class="card">
+    <div class="card-label">Step-by-Step na Proseso</div>
+    <div class="flow">
+      <div class="flow-step">
+        <div class="flow-num">1</div>
+        <div class="flow-body">
+          <div class="flow-title">Tumanggap ng Assignment Brief</div>
+          <div class="flow-time">5 minuto</div>
+          <div class="flow-note">Basahing mabuti ang paksa. Ano ang story? Sino ang subject? Saan kukunan?</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">2</div>
+        <div class="flow-body">
+          <div class="flow-title">Recce (Reconnaissance)</div>
+          <div class="flow-time">10 minuto</div>
+          <div class="flow-note">Libutin ang lugar. Hanapin ang pinakamainam na anggulo, liwanag, at posisyon. Planuhin ang shots.</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">3</div>
+        <div class="flow-body">
+          <div class="flow-title">Mag-shoot</div>
+          <div class="flow-time">60 minuto</div>
+          <div class="flow-note">Wide, medium, close-up. Iba't ibang angulo. Hintayin ang decisive moment. Maraming kuhanin.</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">4</div>
+        <div class="flow-body">
+          <div class="flow-title">Mag-edit (Basic lang)</div>
+          <div class="flow-time">20 minuto</div>
+          <div class="flow-note">Piliin ang pinakamalakas na litrato. Ayusin ang exposure, crop, white balance. Huwag over-edit.</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">5</div>
+        <div class="flow-body">
+          <div class="flow-title">Sumulat ng Caption</div>
+          <div class="flow-time">25 minuto</div>
+          <div class="flow-note">Itanong ang 5W+1H. Present tense. May konteksto. I-check ang grammar at spelling.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Interactive Checklist -->
+  <div class="card">
+    <div class="card-label">Self-Evaluation Checklist — Gamitin Pagkatapos ng Bawat Mock Shoot</div>
+    <ul class="checklist" id="checklist">
+      <li data-id="0"><input type="checkbox" id="c0"><span>Malinaw ang pangunahing subject — hindi malabo o blurred.</span></li>
+      <li data-id="1"><input type="checkbox" id="c1"><span>Ginamit ang Rule of Thirds — hindi lang nasa gitna ang subject.</span></li>
+      <li data-id="2"><input type="checkbox" id="c2"><span>May emosyon o aksyon — hindi pose na mukhang artificial.</span></li>
+      <li data-id="3"><input type="checkbox" id="c3"><span>Tamang exposure — hindi masyadong maliwanag o madilim.</span></li>
+      <li data-id="4"><input type="checkbox" id="c4"><span>May variety ng shots — wide, medium, at close-up.</span></li>
+      <li data-id="5"><input type="checkbox" id="c5"><span>Nasagot ang 5W+1H sa caption.</span></li>
+      <li data-id="6"><input type="checkbox" id="c6"><span>Present tense ang ginamit sa unang pangungusap.</span></li>
+      <li data-id="7"><input type="checkbox" id="c7"><span>May konteksto sa caption — hindi lang inulit ang makikita.</span></li>
+      <li data-id="8"><input type="checkbox" id="c8"><span>Walang spelling o grammar error sa caption.</span></li>
+      <li data-id="9"><input type="checkbox" id="c9"><span>Natapos sa loob ng takdang oras.</span></li>
+    </ul>
+    <div class="chk-score">
+      <div class="score-bar-wrap"><div class="score-bar" id="scoreBar" style="width:0%"></div></div>
+      <div class="score-text" id="scoreText">0/10</div>
+    </div>
+    <button class="btn-reset" onclick="resetChecklist()">I-reset ang Checklist</button>
+  </div>
+
+  <!-- Contest Tips -->
+  <div class="card">
+    <div class="card-label">Mga Tips Para sa Totoong Contest</div>
+    <ul class="bl">
+      <li>I-charge ang baterya ng kamera at spare batteries bago umalis.</li>
+      <li>Dalhin ang sapat na memory cards — i-format bago ang contest.</li>
+      <li>Dumating nang maaga para sa recce ng lugar.</li>
+      <li>Makipag-usap sa mga tao — ang pinaka-magandang shots ay galing sa pagtitiwala.</li>
+      <li>Huwag gumastos ng oras sa pagkuha ng maraming walang silbing shots — mag-focus sa quality.</li>
+      <li>Mag-submit ng isang malakas na litrato, hindi sampung mahina.</li>
+      <li>I-double check ang caption bago i-submit — ito ang pinakakaraniwang dahilan ng pagkabigo.</li>
+    </ul>
+    <div class="hl">
+      🏆 <strong>RSPC Mindset:</strong> Hindi ito tungkol sa pinaka-mamahaling kamera. Ito ay tungkol sa pinaka-makapangyarihang kwento.
+    </div>
+  </div>
+</div>
+
+</main>
+
+<script>
+// ── Tab switching ─────────────────────────────────────
+const sectionMap = {
+  kamera: 'sec-kamera',
+  kompo: 'sec-kompo',
+  balita: 'sec-balita',
+  kwento: 'sec-kwento',
+  etika: 'sec-etika',
+  caption: 'sec-caption',
+  mock: 'sec-mock'
+};
+
+function showTab(id, btn) {
+  // Deactivate all
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  // Activate selected
+  const sec = document.getElementById(sectionMap[id]);
+  if (sec) sec.classList.add('active');
+  if (btn) {
+    btn.classList.add('active');
+    btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+  }
+  // Scroll to top of content
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ── Theme toggle ──────────────────────────────────────
+function toggleTheme() {
+  const root = document.documentElement;
+  const cur = root.getAttribute('data-theme');
+  if (cur === 'light') {
+    root.setAttribute('data-theme', 'dark');
+    try { localStorage.setItem('pj-theme', 'dark'); } catch(e){}
+    document.querySelector('.theme-btn').textContent = '☀';
+  } else {
+    root.setAttribute('data-theme', 'light');
+    try { localStorage.setItem('pj-theme', 'light'); } catch(e){}
+    document.querySelector('.theme-btn').textContent = '🌙';
+  }
+}
+
+// Load saved theme
+try {
+  const saved = localStorage.getItem('pj-theme');
+  if (saved) {
+    document.documentElement.setAttribute('data-theme', saved);
+    document.querySelector('.theme-btn').textContent = saved === 'light' ? '🌙' : '☀';
+  }
+} catch(e){}
+
+// ── Checklist ─────────────────────────────────────────
+function updateScore() {
+  const items = document.querySelectorAll('#checklist li');
+  const checked = document.querySelectorAll('#checklist input:checked').length;
+  const total = items.length;
+  const pct = (checked / total * 100).toFixed(0);
+  document.getElementById('scoreBar').style.width = pct + '%';
+  document.getElementById('scoreText').textContent = checked + '/' + total;
+}
+
+// Load saved checklist state
+try {
+  const saved = JSON.parse(localStorage.getItem('pj-checklist') || '[]');
+  saved.forEach(id => {
+    const cb = document.getElementById('c' + id);
+    const li = document.querySelector('[data-id="' + id + '"]');
+    if (cb && li) { cb.checked = true; li.classList.add('done'); }
+  });
+  updateScore();
+} catch(e){}
+
+// Handle checklist clicks
+document.querySelectorAll('#checklist li').forEach(li => {
+  li.addEventListener('click', function(e) {
+    const cb = this.querySelector('input[type="checkbox"]');
+    if (e.target !== cb) cb.checked = !cb.checked;
+    this.classList.toggle('done', cb.checked);
+    updateScore();
+    // Save state
+    try {
+      const checked = [...document.querySelectorAll('#checklist input:checked')]
+        .map(cb => cb.id.replace('c', ''));
+      localStorage.setItem('pj-checklist', JSON.stringify(checked));
+    } catch(e){}
+  });
+});
+
+function resetChecklist() {
+  document.querySelectorAll('#checklist input').forEach(cb => cb.checked = false);
+  document.querySelectorAll('#checklist li').forEach(li => li.classList.remove('done'));
+  updateScore();
+  try { localStorage.removeItem('pj-checklist'); } catch(e){}
+}
+</script>
